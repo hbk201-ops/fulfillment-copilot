@@ -8,15 +8,14 @@
 ![Tests](https://img.shields.io/badge/tests-102%20passed-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-<!-- 上传到 GitHub 后，把下面这行的 <你的用户名>/<仓库名> 换成实际地址，即可显示 CI 状态 -->
-<!-- ![CI](https://github.com/<你的用户名>/<仓库名>/actions/workflows/ci.yml/badge.svg) -->
+![CI](https://github.com/hbk201-ops/fulfillment-copilot/actions/workflows/ci.yml/badge.svg)
 
 ---
 
 ## 30 秒看懂
 
 ```bash
-git clone <你的仓库地址> && cd fulfillment-copilot
+git clone https://github.com/hbk201-ops/fulfillment-copilot.git && cd fulfillment-copilot
 python run.py demo          # 一条命令跑通全流程（零依赖、零配置，不需要 API Key）
 ```
 
