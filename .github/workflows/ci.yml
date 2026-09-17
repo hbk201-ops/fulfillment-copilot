@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  # 任务一：证明"零依赖可跑" —— 不安装任何第三方包，直接跑测试与全流程
+  stdlib-only:
+    name: 零依赖可跑 (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: 单元测试（标准库 unittest，无任何依赖）
+        run: python -m unittest discover -s tests -v
+      - name: 端到端跑通（零配置入口，Excel 会自动跳过）
+        run: python run.py demo --orders 4000 --out output
+        env:
+          PYTHONIOENCODING: utf-8
+      - name: 自检是否抓到注入的异常剧本
+        run: python run.py verify --orders 8000
+        env:
+          PYTHONIOENCODING: utf-8
+
+  # 任务二：完整能力（含 Excel 导出）+ 产物归档
+  full:
+    name: 完整能力（含 Excel 导出）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
+      - name: 运行测试（pytest）
+        run: python -m pytest tests
+      - name: 生成全部交付物
+        run: fulfillment-copilot demo --orders 20000 --out output
+        env:
+          PYTHONIOENCODING: utf-8
+      - name: 上传产物（看板 / 报告 / Excel）
+        uses: actions/upload-artifact@v4
+        with:
+          name: fulfillment-copilot-artifacts
+          path: |
+            output/dashboard.html
+            output/kpi_workbook.xlsx
+            output/reports/*.md
+          if-no-files-found: error
