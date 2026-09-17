@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-09-17T23:59:00",
+  "orders": 20000,
+  "scenarios": [
+    {
+      "scenario_id": "A_SITE_DISPATCH_DEGRADATION",
+      "title": "广州加盟站点派单能力恶化",
+      "dimension": "站点",
+      "value": "S03",
+      "metric": "dispatch_p90",
+      "window": [
+        "2026-09-03",
+        "2026-09-17"
+      ],
+      "multiplier": 2.6,
+      "expect": "S03 派单时长 P90 显著高于其他站点，且可归因到站内部分工程师，连带上门准时率下降、时效类客诉上升"
+    },
+    {
+      "scenario_id": "B_NEW_CATEGORY_QUALITY_DROP",
+      "title": "充电桩品类一次完工率下降（返工率上升）",
+      "dimension": "品类",
+      "value": "充电桩服务",
+      "metric": "rework_rate",
+      "window": [
+        "2026-08-27",
+        "2026-09-17"
+      ],
+      "multiplier": 3.2,
+      "expect": "充电桩服务返工率上升（一次完工率下降），归因指向工程师技能与新品类培训不足"
+    },
+    {
+      "scenario_id": "C_COST_INFLATION",
+      "title": "搬家品类成本异常上涨",
+      "dimension": "品类",
+      "value": "搬家",
+      "metric": "avg_cost",
+      "window": [
+        "2026-09-03",
+        "2026-09-17"
+      ],
+      "multiplier": 1.35,
+      "expect": "搬家单均成本上涨约 35%，毛利率下滑，需要复核结算规则与运力采购价"
+    }
+  ]
+}
